@@ -55,7 +55,11 @@ module.exports = () => {
           stringMessage.length,
           port,
           host,
-          reject
+          (err) => {
+            if (err) {
+              reject(err);
+            }
+          }
         );
 
         setTimeout(() => {
