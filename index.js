@@ -6,7 +6,7 @@ const uuid = require('node-uuid');
 module.exports = () => {
   const server = dgram.createSocket('udp4');
   const pongCbs = {};
-  const pingCbs = [];
+  const pingCbs = {};
 
   server.on('message', (response, rinfo) => {
     const parsedRes = JSON.parse(response.toString());
@@ -17,7 +17,7 @@ module.exports = () => {
     }
 
     if (parsedRes.type === 'ping') {
-      pingCbs.forEach((cb) => {
+      pingCbs[parsedRes.eventType].forEach((cb) => {
         cb(parsedRes.msg, (data) => {
           const stringMessage = JSON.stringify({
             type: 'pong',
@@ -42,13 +42,13 @@ module.exports = () => {
       server.bind(port, host);
     },
 
-    send(msg, port, host) {
+    send(eventType, msg, port, host) {
       host = host || '127.0.0.1';
 
       return new Promise((resolve, reject) => {
         const id = uuid.v4();
         pongCbs[id] = resolve;
-        const stringMessage = JSON.stringify({ msg, uuid: id, type: 'ping' });
+        const stringMessage = JSON.stringify({ eventType, msg, uuid: id, type: 'ping' });
         server.send(
           stringMessage,
           0,
@@ -68,8 +68,10 @@ module.exports = () => {
       });
     },
 
-    on(cb) {
-      pingCbs.push(cb);
+    on(eventType, cb) {
+      Array.isArray(pingCbs[eventType]) ?
+      pingCbs[eventType].push(cb) :
+      pingCbs[eventType] = [cb];
     }
   };
 };
