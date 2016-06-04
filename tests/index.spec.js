@@ -1,6 +1,6 @@
 'use strict';
 
-describe('udp req res', () => {
+describe('udp-reqres', () => {
   beforeEach();
 
   describe('#send', () => {
