@@ -1,15 +1,10 @@
-const udpReqRes = require('./index');
+const udpReqRes = require('./src/udp-reqres');
+const udpSocket = require('dgram').createSocket('udp4');
+const server = udpReqRes(udpSocket);
 
-const server = udpReqRes();
+server.bind(33335);
 
-server.on('event1', (res, cb) => {
-  console.log('event1', res);
-  cb({ foo: 'bar1' });
+server.on('MY_AWESOME_EVENT', (res, cb) => {
+  console.log(res.question);
+  cb({ answer: 'i\'m fine, thanx !' });
 });
-
-server.on('event2', (res, cb) => {
-  console.log('event2', res);
-  cb({ foo: 'bar2' });
-});
-
-server.bind(33336);
