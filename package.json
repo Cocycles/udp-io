@@ -2,11 +2,11 @@
   "name": "udp-reqres",
   "version": "1.0.2",
   "description": "",
-  "main": "index.js",
+  "main": "./src/udp-reqres.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "gulp test"
   },
-  "author": "",
+  "author": "rany & ronena",
   "license": "ISC",
   "dependencies": {
     "node-uuid": "^1.4.7"

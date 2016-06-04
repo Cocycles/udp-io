@@ -1,10 +1,10 @@
 'use strict';
 
-const dgram = require('dgram');
 const uuid = require('node-uuid');
 
-module.exports = () => {
-  const server = dgram.createSocket('udp4');
+module.exports = (server) => {
+  server = server || require('dgram').createSocket('udp4');
+
   const pongCbs = {};
   const pingCbs = {};
 
@@ -69,9 +69,11 @@ module.exports = () => {
     },
 
     on(eventType, cb) {
-      Array.isArray(pingCbs[eventType]) ?
-      pingCbs[eventType].push(cb) :
-      pingCbs[eventType] = [cb];
-    }
+      if (Array.isArray(pingCbs[eventType])) {
+        pingCbs[eventType].push(cb);
+      } else {
+        pingCbs[eventType] = [cb];
+      }
+    },
   };
 };
