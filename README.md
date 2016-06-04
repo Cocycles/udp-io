@@ -23,7 +23,7 @@ this method returns an es6 Promise with the result from the "server".
 ```js
 //on the "server"
 
-const udpReqRes = require('./src/udp-reqres');
+const udpReqRes = require('udp-reqres');
 const udpSocket = require('dgram').createSocket('udp4');
 const server = udpReqRes(udpSocket);
 
@@ -38,7 +38,7 @@ server.on('MY_AWESOME_EVENT', (res, cb) => {
 ```js
 //on the "client"
 
-const udpReqRes = require('./src/udp-reqres');
+const udpReqRes = require('udp-reqres');
 const udpSocket = require('dgram').createSocket('udp4');
 const server = udpReqRes(udpSocket);
 
