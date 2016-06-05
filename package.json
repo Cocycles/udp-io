@@ -7,7 +7,7 @@
     "test": "gulp test"
   },
   "author": "rany & ronena",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "node-uuid": "^1.4.7"
   },
