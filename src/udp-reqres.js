@@ -1,14 +1,14 @@
 'use strict';
 
+const dgram = require('dgram');
 const uuid = require('node-uuid');
 
-module.exports = (server) => {
-  server = server || require('dgram').createSocket('udp4');
-
+module.exports = function() {
+  const server = dgram.createSocket('udp4');
   const pongCbs = {};
   const pingCbs = {};
 
-  server.on('message', (response, rinfo) => {
+  server.on('message', function(response, rinfo) {
     const parsedRes = JSON.parse(response.toString());
 
     if (parsedRes.type === 'pong' && !!pongCbs[parsedRes.uuid]) {
@@ -17,8 +17,8 @@ module.exports = (server) => {
     }
 
     if (parsedRes.type === 'ping') {
-      pingCbs[parsedRes.eventType].forEach((cb) => {
-        cb(parsedRes.msg, (data) => {
+      pingCbs[parsedRes.eventType].forEach(function (cb) {
+        cb(parsedRes.msg, function (data) {
           const stringMessage = JSON.stringify({
             type: 'pong',
             msg: data,
@@ -38,42 +38,40 @@ module.exports = (server) => {
   });
 
   return {
-    bind(port, host) {
+    bind: function(port, host) {
       server.bind(port, host);
     },
 
-    send(eventType, msg, port, host) {
+    send: function(eventType, msg, port, host) {
       host = host || '127.0.0.1';
 
-      return new Promise((resolve, reject) => {
+      return new Promise(function (resolve, reject) {
         const id = uuid.v4();
         pongCbs[id] = resolve;
-        const stringMessage = JSON.stringify({ eventType, msg, uuid: id, type: 'ping' });
+        const stringMessage = JSON.stringify({ eventType: eventType, msg: msg, uuid: id, type: 'ping' });
         server.send(
           stringMessage,
           0,
           stringMessage.length,
           port,
           host,
-          (err) => {
+          function(err) {
             if (err) {
               reject(err);
             }
           }
         );
 
-        setTimeout(() => {
+        setTimeout(function () {
           delete pongCbs[uuid.v4()];
         }, 5000);
       });
     },
 
-    on(eventType, cb) {
-      if (Array.isArray(pingCbs[eventType])) {
-        pingCbs[eventType].push(cb);
-      } else {
-        pingCbs[eventType] = [cb];
-      }
-    },
+    on: function(eventType, cb) {
+      Array.isArray(pingCbs[eventType]) ?
+      pingCbs[eventType].push(cb) :
+      pingCbs[eventType] = [cb];
+    }
   };
 };
