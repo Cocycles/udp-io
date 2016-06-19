@@ -1,6 +1,6 @@
 {
   "name": "udp-reqres",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "./src/udp-reqres.js",
   "scripts": {
