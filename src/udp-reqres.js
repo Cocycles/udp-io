@@ -17,6 +17,10 @@ module.exports = function() {
     }
 
     if (parsedRes.type === 'ping') {
+      if (!Array.isArray(pingCbs[parsedRes.eventType])) {
+        return;
+      }
+      
       pingCbs[parsedRes.eventType].forEach(function (cb) {
         cb(parsedRes.msg, function (data) {
           const stringMessage = JSON.stringify({
