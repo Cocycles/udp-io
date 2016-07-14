@@ -1,4 +1,4 @@
-# udp-reqres
+# udp-io
 
 > easy request response pattern for udp sockets, using nodejs dgram module.
 
@@ -7,7 +7,7 @@ A nicer interface to the built-in [`dgram`](http://nodejs.org/api/dgram.html) mo
 ## Install
 
 ```
-$ npm install --save udp-reqres
+$ npm install --save udp-io
 ```
 
 ## Usage
@@ -23,9 +23,9 @@ this method returns an es6 Promise with the result from the "server".
 ```js
 //on the "server"
 
-const udpReqRes = require('udp-reqres');
+const udpIO = require('udp-io');
 const udpSocket = require('dgram').createSocket('udp4');
-const server = udpReqRes(udpSocket);
+const server = udpIO(udpSocket);
 
 server.bind(33335);
 
@@ -38,9 +38,9 @@ server.on('MY_AWESOME_EVENT', (res, cb) => {
 ```js
 //on the "client"
 
-const udpReqRes = require('udp-reqres');
+const udpIO = require('udp-io');
 const udpSocket = require('dgram').createSocket('udp4');
-const server = udpReqRes(udpSocket);
+const server = udpIO(udpSocket);
 
 server.bind(33334);
 

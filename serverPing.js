@@ -1,6 +1,6 @@
-const udpReqRes = require('./src/udp-reqres');
+const udpIO = require('./src/udp-io');
 const udpSocket = require('dgram').createSocket('udp4');
-const server = udpReqRes(udpSocket);
+const server = udpIO(udpSocket);
 
 server.bind(33334);
 

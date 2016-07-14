@@ -1,14 +1,14 @@
-const udpReqres = require('./../src/udp-reqres');
+const udpIO = require('./../src/udp-io');
 let udpServerMock;
 
 const createUdpServer = (host, port) => {
-  const server = udpReqres(udpServerMock);
+  const server = udpIO(udpServerMock);
   server.bind(host, port);
   return server;
 };
 
 
-describe('udp-reqres', () => {
+describe('udp-io', () => {
   beforeEach(() => {
     udpServerMock = {
       bind: jasmine.createSpy(),
@@ -20,7 +20,7 @@ describe('udp-reqres', () => {
     it('should call the udpServer with the host and port', () => {
       const host = 'www.mayTheUdpSocketsBeWithYou.com';
       const port = 42;
-      const server = udpReqres(udpServerMock);
+      const server = udpIO(udpServerMock);
       server.bind(host, port);
       expect(udpServerMock.bind).toHaveBeenCalledWith(host, port);
     });

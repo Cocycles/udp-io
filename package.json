@@ -1,8 +1,8 @@
 {
-  "name": "udp-reqres",
+  "name": "udp-io",
   "version": "1.0.5",
   "description": "",
-  "main": "./src/udp-reqres.js",
+  "main": "./src/udp-io.js",
   "scripts": {
     "test": "gulp test"
   },
