@@ -43,7 +43,7 @@ const udpSocket = require('dgram').createSocket('udp4');
 const server = udpIO(udpSocket);
 
 server.bind(33334);
-
+server.setMaxTimeout(4000);
 server.send('MY_AWESOME_EVENT', { question: 'how are you ?' }, 33335).then((res) => {
   console.log(`answer: ${res.answer}`);
 });
@@ -61,5 +61,8 @@ server.send('MY_AWESOME_EVENT', { question: 'how are you ?' }, 33335).then((res)
   send an event to a certain host, returns an es6 Promise.
   `eventName` is a string and `host` is default to localhost.
 
+#### server.setMaxTimeout(milliseconds)
+  change the max timeout for a request,
+  which after that the request expires.
 ## License
 MIT

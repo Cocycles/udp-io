@@ -7,6 +7,7 @@ module.exports = function() {
   const server = dgram.createSocket('udp4');
   const pongCbs = {};
   const pingCbs = {};
+  let maxTimeout = 5000;
 
   server.on('message', function(response, rinfo) {
     const parsedRes = JSON.parse(response.toString());
@@ -46,6 +47,10 @@ module.exports = function() {
       server.bind(port, host);
     },
 
+    setMaxTimeout: function(milliseconds) {
+      maxTimeout = milliseconds;
+    },
+
     send: function(eventType, msg, port, host) {
       host = host || '127.0.0.1';
 
@@ -68,7 +73,7 @@ module.exports = function() {
 
         setTimeout(function () {
           delete pongCbs[id];
-        }, 5000);
+        }, maxTimeout);
       });
     },
 
