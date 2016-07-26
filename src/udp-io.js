@@ -20,7 +20,7 @@ module.exports = function() {
       if (!Array.isArray(pingCbs[parsedRes.eventType])) {
         return;
       }
-      
+
       pingCbs[parsedRes.eventType].forEach(function (cb) {
         cb(parsedRes.msg, function (data) {
           const stringMessage = JSON.stringify({
@@ -67,7 +67,7 @@ module.exports = function() {
         );
 
         setTimeout(function () {
-          delete pongCbs[uuid.v4()];
+          delete pongCbs[id];
         }, 5000);
       });
     },
