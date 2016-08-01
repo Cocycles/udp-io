@@ -7,7 +7,7 @@ module.exports = function() {
   const server = dgram.createSocket('udp4');
   const pongCbs = {};
   const pingCbs = {};
-  let maxTimeout = 5000;
+  var maxTimeout = 5000;
 
   server.on('message', function(response, rinfo) {
     const parsedRes = JSON.parse(response.toString());
