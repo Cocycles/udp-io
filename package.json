@@ -1,6 +1,6 @@
 {
   "name": "udp-io",
-  "version": "1.0.7",
+  "version": "1.0.9",
   "description": "",
   "main": "./src/udp-io.js",
   "scripts": {
