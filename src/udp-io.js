@@ -10,7 +10,7 @@ module.exports = function() {
   var maxTimeout = 5000;
 
   server.on('message', function(response, rinfo) {
-    const parsedRes = JSON.parse(response.toString());
+    const parsedRes = JSON.parse(response.toString('utf8'));
 
     if (parsedRes.type === 'pong' && !!pongCbs[parsedRes.uuid]) {
       pongCbs[parsedRes.uuid](parsedRes.msg);
@@ -32,8 +32,6 @@ module.exports = function() {
 
           server.send(
             stringMessage,
-            0,
-            stringMessage.length,
             rinfo.port,
             rinfo.address
           );
@@ -57,11 +55,16 @@ module.exports = function() {
       return new Promise(function (resolve, reject) {
         const id = uuid.v4();
         pongCbs[id] = resolve;
-        const stringMessage = JSON.stringify({ eventType: eventType, msg: msg, uuid: id, type: 'ping' });
+
+        const stringMessage = JSON.stringify({
+          eventType: eventType,
+          msg: msg,
+          uuid: id,
+          type: 'ping'
+        });
+
         server.send(
           stringMessage,
-          0,
-          stringMessage.length,
           port,
           host,
           function(err) {
